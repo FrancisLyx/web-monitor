@@ -3,86 +3,101 @@
  * 展示详细的性能指标数据
  */
 
-import { useEffect, useState } from 'react';
-import { Card, Table, Spin, Alert, Tabs, Row, Col, Statistic } from 'antd';
-import { LineChartOutlined } from '@ant-design/icons';
-import * as echarts from 'echarts';
-import { mockApi } from '../mock/server';
-import dayjs from 'dayjs';
+import { useEffect, useState } from 'react'
+import { Card, Table, Spin, Alert, Tabs, Row, Col, Statistic } from 'antd'
+import { LineChartOutlined } from '@ant-design/icons'
+import * as echarts from 'echarts'
+import { mockApi } from '../mock/server.js'
+import dayjs from 'dayjs'
 
 // 性能数据接口
 interface PerformanceItem {
-  loadTime: number;
-  dnsTime: number;
-  tcpTime: number;
-  requestTime: number;
-  domParseTime: number;
-  whiteScreenTime: number;
-  timeToInteractive: number;
-  'first-paint'?: number;
-  'first-contentful-paint'?: number;
-  timestamp: number;
+  loadTime: number
+  dnsTime: number
+  tcpTime: number
+  requestTime: number
+  domParseTime: number
+  whiteScreenTime: number
+  timeToInteractive: number
+  'first-paint'?: number
+  'first-contentful-paint'?: number
+  timestamp: number
 }
 
 // 性能统计数据接口
 interface PerformanceStats {
-  loadTime?: number;
-  dnsTime?: number;
-  tcpTime?: number;
-  requestTime?: number;
-  domParseTime?: number;
-  whiteScreenTime?: number;
-  timeToInteractive?: number;
-  'first-paint'?: number;
-  'first-contentful-paint'?: number;
+  loadTime?: number
+  dnsTime?: number
+  tcpTime?: number
+  requestTime?: number
+  domParseTime?: number
+  whiteScreenTime?: number
+  timeToInteractive?: number
+  'first-paint'?: number
+  'first-contentful-paint'?: number
 }
 
 const Performance = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [data, setData] = useState<{
-    list: PerformanceItem[];
-    stats: PerformanceStats;
-  } | null>(null);
+    list: PerformanceItem[]
+    stats: PerformanceStats
+  } | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await mockApi.getPerformanceData();
-        setData(response);
-        setError(null);
+        setLoading(true)
+        const response = await mockApi.getPerformanceData()
+        const transformedData = {
+          list: response.list.map((item) => ({
+            loadTime: item.data.loadTime,
+            dnsTime: item.data.dnsTime,
+            tcpTime: item.data.tcpTime,
+            requestTime: item.data.requestTime,
+            domParseTime: item.data.domParseTime,
+            whiteScreenTime: item.data.whiteScreenTime,
+            timeToInteractive: item.data.timeToInteractive,
+            'first-paint': item.data['first-paint'],
+            'first-contentful-paint': item.data['first-contentful-paint'],
+            timestamp: item.timestamp
+          })),
+          stats: response.stats
+        }
+        setData(transformedData)
+        setError(null)
       } catch (err) {
-        setError('获取性能数据失败');
-        console.error('获取性能数据失败:', err);
+        setError('获取性能数据失败')
+        console.error('获取性能数据失败:', err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   useEffect(() => {
     if (data?.list && data.list.length > 0) {
-      initCharts();
+      initCharts()
     }
-  }, [data]);
+  }, [data])
 
   // 初始化图表
   const initCharts = () => {
-    if (!data?.list) return;
+    if (!data?.list) return
 
     // 加载时间趋势图
-    const loadTimeChart = document.getElementById('loadTimeChart');
+    const loadTimeChart = document.getElementById('loadTimeChart')
     if (loadTimeChart) {
-      const chart = echarts.init(loadTimeChart as HTMLElement);
-      
+      const chart = echarts.init(loadTimeChart as HTMLElement)
+
       // 准备数据
-      const sortedData = [...data.list].sort((a, b) => a.timestamp - b.timestamp);
-      const timestamps = sortedData.map(item => dayjs(item.timestamp).format('MM-DD HH:mm'));
-      const loadTimes = sortedData.map(item => item.loadTime);
-      
+      const sortedData = [...data.list].sort((a, b) => a.timestamp - b.timestamp)
+      const timestamps = sortedData.map((item) => dayjs(item.timestamp).format('MM-DD HH:mm'))
+      const loadTimes = sortedData.map((item) => item.loadTime)
+
       const option = {
         title: {
           text: '页面加载时间趋势'
@@ -105,23 +120,21 @@ const Performance = () => {
             data: loadTimes,
             smooth: true,
             markLine: {
-              data: [
-                { type: 'average', name: '平均值' }
-              ]
+              data: [{ type: 'average', name: '平均值' }]
             }
           }
         ]
-      };
-      
-      chart.setOption(option);
-      window.addEventListener('resize', () => chart.resize());
+      }
+
+      chart.setOption(option)
+      window.addEventListener('resize', () => chart.resize())
     }
 
     // 关键性能指标对比图
-    const metricsChart = document.getElementById('metricsChart');
+    const metricsChart = document.getElementById('metricsChart')
     if (metricsChart) {
-      const chart = echarts.init(metricsChart as HTMLElement);
-      
+      const chart = echarts.init(metricsChart as HTMLElement)
+
       // 计算平均值
       const metrics = [
         { name: 'DNS解析', value: data.stats.dnsTime || 0 },
@@ -132,8 +145,8 @@ const Performance = () => {
         { name: '首次可交互', value: data.stats.timeToInteractive || 0 },
         { name: '首次绘制', value: data.stats['first-paint'] || 0 },
         { name: '首次内容绘制', value: data.stats['first-contentful-paint'] || 0 }
-      ];
-      
+      ]
+
       const option = {
         title: {
           text: '关键性能指标对比'
@@ -150,21 +163,21 @@ const Performance = () => {
         },
         yAxis: {
           type: 'category',
-          data: metrics.map(item => item.name)
+          data: metrics.map((item) => item.name)
         },
         series: [
           {
             name: '平均耗时',
             type: 'bar',
-            data: metrics.map(item => item.value)
+            data: metrics.map((item) => item.value)
           }
         ]
-      };
-      
-      chart.setOption(option);
-      window.addEventListener('resize', () => chart.resize());
+      }
+
+      chart.setOption(option)
+      window.addEventListener('resize', () => chart.resize())
     }
-  };
+  }
 
   // 表格列定义
   const columns = [
@@ -217,56 +230,38 @@ const Performance = () => {
       key: 'timeToInteractive',
       render: (time: number) => `${time} ms`
     }
-  ];
+  ]
 
   return (
     <div className="performance-page">
       <h2>性能监控</h2>
-      
+
       {error && <Alert message={error} type="error" showIcon style={{ marginBottom: 16 }} />}
-      
+
       <Spin spinning={loading}>
         {data && (
           <>
             <Row gutter={[16, 16]}>
               <Col span={6}>
                 <Card>
-                  <Statistic 
-                    title="平均加载时间" 
-                    value={data.stats.loadTime || 0} 
-                    suffix="ms"
-                    precision={0}
-                    prefix={<LineChartOutlined />}
-                  />
+                  <Statistic title="平均加载时间" value={data.stats.loadTime || 0} suffix="ms" precision={0} prefix={<LineChartOutlined />} />
                 </Card>
               </Col>
               <Col span={6}>
                 <Card>
-                  <Statistic 
-                    title="平均白屏时间" 
-                    value={data.stats.whiteScreenTime || 0} 
-                    suffix="ms"
-                    precision={0}
-                    prefix={<LineChartOutlined />}
-                  />
+                  <Statistic title="平均白屏时间" value={data.stats.whiteScreenTime || 0} suffix="ms" precision={0} prefix={<LineChartOutlined />} />
                 </Card>
               </Col>
               <Col span={6}>
                 <Card>
-                  <Statistic 
-                    title="平均首次绘制" 
-                    value={data.stats['first-paint'] || 0} 
-                    suffix="ms"
-                    precision={0}
-                    prefix={<LineChartOutlined />}
-                  />
+                  <Statistic title="平均首次绘制" value={data.stats['first-paint'] || 0} suffix="ms" precision={0} prefix={<LineChartOutlined />} />
                 </Card>
               </Col>
               <Col span={6}>
                 <Card>
-                  <Statistic 
-                    title="平均首次内容绘制" 
-                    value={data.stats['first-contentful-paint'] || 0} 
+                  <Statistic
+                    title="平均首次内容绘制"
+                    value={data.stats['first-contentful-paint'] || 0}
                     suffix="ms"
                     precision={0}
                     prefix={<LineChartOutlined />}
@@ -301,9 +296,9 @@ const Performance = () => {
                   label: '详细数据',
                   children: (
                     <Card>
-                      <Table 
-                        columns={columns} 
-                        dataSource={data.list.map((item, index) => ({ ...item, key: index }))} 
+                      <Table
+                        columns={columns}
+                        dataSource={data.list.map((item, index) => ({ ...item, key: index }))}
                         scroll={{ x: 1200 }}
                         pagination={{ pageSize: 10 }}
                       />
@@ -316,7 +311,7 @@ const Performance = () => {
         )}
       </Spin>
     </div>
-  );
-};
+  )
+}
 
-export default Performance;
+export default Performance

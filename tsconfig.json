@@ -3,8 +3,8 @@
   "compilerOptions": {
     /* 基础配置 */
     "target": "ES2022", // 现代浏览器支持的ECMAScript版本
-    "module": "NodeNext", // 支持ES模块和CommonJS混合
-    "moduleResolution": "NodeNext", // 模块解析策略
+    "module": "ESNext", // 支持ES模块和CommonJS混合
+    "moduleResolution": "Bundler", // 模块解析策略
     "rootDir": "./src", // 源码根目录
     "outDir": "./dist", // 编译输出目录
     "strict": true, // 启用所有严格类型检查选项
@@ -15,11 +15,12 @@
     "noUnusedLocals": true, // 禁止未使用的局部变量
     "noUnusedParameters": true, // 禁止未使用的函数参数
     "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
-    "allowSyntheticDefaultImports":true, // 允许使用默认导入（如：import React from 'react'）    
+    "allowSyntheticDefaultImports": true, // 允许使用默认导入（如：import React from 'react'）
+    "esModuleInterop": true, // 允许CommonJS和ES模块互操作
+    "skipLibCheck": true,
+    "emitDeclarationOnly": true,
 
     /* 类型系统 */
-    "esModuleInterop": true, // 允许CommonJS和ES模块互操作
-    "skipLibCheck": true, // 跳过第三方库的类型检查（提升编译速度）
     "baseUrl": "./src", // 路径别名的基准目录
     "paths": {
       "@/*": ["app/*"], // 自定义路径别名（例如：@/components -> app/components）

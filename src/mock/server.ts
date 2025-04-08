@@ -1,13 +1,11 @@
-import dayjs from 'dayjs';
-
 // 生成随机数据
 const generateRandomData = (count: number) => {
-  const data = [];
-  const now = Date.now();
-  const hourMs = 60 * 60 * 1000;
+  const data = []
+  const now = Date.now()
+  const hourMs = 60 * 60 * 1000
 
   for (let i = 0; i < count; i++) {
-    const timestamp = now - (Math.random() * 24 * hourMs);
+    const timestamp = now - Math.random() * 24 * hourMs
     data.push({
       type: ['performance', 'error', 'behavior', 'resource'][Math.floor(Math.random() * 4)],
       appId: 'your-app-id',
@@ -32,16 +30,24 @@ const generateRandomData = (count: number) => {
         'first-contentful-paint': Math.round(Math.random() * 1000 + 200),
         duration: Math.round(Math.random() * 2000 + 100)
       }
-    });
+    })
   }
-  return data;
-};
+  return data
+}
+
+interface MonitorStat {
+  _id: {
+    hour: number
+    type: string
+  }
+  count: number
+}
 
 // 模拟API服务
 export const mockApi = {
   // 获取性能数据
   async getPerformanceData() {
-    const list = generateRandomData(50);
+    const list = generateRandomData(50)
     const stats = {
       loadTime: Math.round(list.reduce((sum, item) => sum + item.data.loadTime, 0) / list.length),
       dnsTime: Math.round(list.reduce((sum, item) => sum + item.data.dnsTime, 0) / list.length),
@@ -52,30 +58,29 @@ export const mockApi = {
       timeToInteractive: Math.round(list.reduce((sum, item) => sum + item.data.timeToInteractive, 0) / list.length),
       'first-paint': Math.round(list.reduce((sum, item) => sum + item.data['first-paint'], 0) / list.length),
       'first-contentful-paint': Math.round(list.reduce((sum, item) => sum + item.data['first-contentful-paint'], 0) / list.length)
-    };
-    return { list, stats };
+    }
+    return { list, stats }
   },
 
   // 获取监控统计数据
   async getMonitorStats() {
-    const data = generateRandomData(100);
-    const stats = [];
-    
+    const stats: MonitorStat[] = []
+
     // 按小时和类型分组统计
     for (let hour = 0; hour < 24; hour++) {
-      ['performance', 'error', 'behavior', 'resource'].forEach(type => {
+      ;['performance', 'error', 'behavior', 'resource'].forEach((type) => {
         stats.push({
           _id: { hour, type },
           count: Math.floor(Math.random() * 50)
-        });
-      });
+        })
+      })
     }
-    
-    return stats;
+
+    return stats
   },
 
   // 获取监控数据
   async getMonitorData() {
-    return generateRandomData(100);
+    return generateRandomData(100)
   }
-};
+}
