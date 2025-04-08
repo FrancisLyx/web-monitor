@@ -1,7 +1,55 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* 基础配置 */
+    "target": "ES2022", // 现代浏览器支持的ECMAScript版本
+    "module": "NodeNext", // 支持ES模块和CommonJS混合
+    "moduleResolution": "NodeNext", // 模块解析策略
+    "rootDir": "./src", // 源码根目录
+    "outDir": "./dist", // 编译输出目录
+    "strict": true, // 启用所有严格类型检查选项
+    "noImplicitAny": true, // 禁止隐式any类型
+    "strictNullChecks": true, // 严格处理null/undefined
+    "strictFunctionTypes": true, // 严格函数类型检查
+    "strictBindCallApply": true, // 严格检查bind/call/apply参数
+    "noUnusedLocals": true, // 禁止未使用的局部变量
+    "noUnusedParameters": true, // 禁止未使用的函数参数
+    "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+    "allowSyntheticDefaultImports":true, // 允许使用默认导入（如：import React from 'react'）    
+
+    /* 类型系统 */
+    "esModuleInterop": true, // 允许CommonJS和ES模块互操作
+    "skipLibCheck": true, // 跳过第三方库的类型检查（提升编译速度）
+    "baseUrl": "./src", // 路径别名的基准目录
+    "paths": {
+      "@/*": ["app/*"], // 自定义路径别名（例如：@/components -> app/components）
+      "assets/*": ["static/*"]
+    },
+
+    /* 代码生成 */
+    "sourceMap": true, // 生成sourceMap（开发环境建议开启，生产环境关闭）
+    "declaration": true, // 生成声明文件（.d.ts）
+    "declarationMap": true, // 生成声明文件映射
+    "emitDecoratorMetadata": true, // 支持装饰器元数据（如NestJS项目）
+    "experimentalDecorators": true,
+
+    /* 现代JS特性 */
+    "jsx": "react-jsx", // 支持React JSX（根据项目框架调整）
+    "jsxImportSource": "@emotion/react", // JSX工厂函数来源（如使用Emotion）
+
+    /* 性能优化 */
+    "incremental": true, // 启用增量编译
+    "tsBuildInfoFile": "./buildcache/tsconfig.tsbuildinfo", // 增量编译缓存位置
+    "skipDefaultLibCheck": true, // 跳过默认库的重复检查
+    "allowJs": true, // 允许编译JavaScript文件
+    "resolveJsonModule": true, // 允许导入JSON模块
+    "isolatedModules": true // 确保每个文件都可以安全地独立编译
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts", // 排除测试文件
+    "buildcache" // 排除构建缓存
   ]
 }
