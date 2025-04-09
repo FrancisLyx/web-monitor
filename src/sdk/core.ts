@@ -133,27 +133,34 @@ export class WebMonitor {
     const boundShouldIgnoreUrl = this.shouldIgnoreUrl.bind(this)
     const boundReportError = this.reportError.bind(this)
 
-    window.XMLHttpRequest = class extends originalXHR {
-      constructor() {
-        super()
-        const originalOpen = this.open
-        this.open = (method: string, url: string, async = true, username?: string | null, password?: string | null) => {
-          if (boundShouldIgnoreUrl(url)) return originalOpen.call(this, method, url, Boolean(async), username, password)
+    function createXHRWrapper() {
+      function XMLHttpRequestWrapper() {
+        const xhr = new originalXHR()
+        const originalOpen = xhr.open.bind(xhr)
 
-          this.addEventListener('error', () => {
+        xhr.open = function(method: string, url: string, async = true, username?: string | null, password?: string | null) {
+          if (boundShouldIgnoreUrl(url)) return originalOpen(method, url, Boolean(async), username, password)
+
+          xhr.addEventListener('error', () => {
             const errorData: ErrorData = {
               type: 'xhr_error',
               message: `XHR request failed: ${method} ${url}`,
               url,
               method,
-              status: this.status
+              status: xhr.status
             }
             boundReportError(errorData)
           })
-          return originalOpen.call(this, method, url, Boolean(async), username, password)
+          return originalOpen(method, url, Boolean(async), username, password)
         }
+
+        return xhr
       }
+
+      return XMLHttpRequestWrapper as unknown as typeof XMLHttpRequest
     }
+
+    window.XMLHttpRequest = createXHRWrapper()
 
     // Fetch错误监控
     const originalFetch = window.fetch
@@ -312,7 +319,6 @@ export class WebMonitor {
       }
     }
 
-    document.addEventListener('click', handleInteraction)
     document.addEventListener('keydown', handleInteraction)
     document.addEventListener('scroll', handleInteraction)
 
