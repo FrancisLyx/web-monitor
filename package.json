@@ -1,0 +1,46 @@
+{
+	"name": "vue3-ts-monorepo-template",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"dev": "pnpm dev:core",
+		"dev:core": "pnpm --filter core dev",
+		"lint": "eslint --fix",
+		"lint:style": "stylelint \"{packages,apps}/**/*.{css,vue}\"",
+		"spellcheck": "cspell lint --dot --gitignore --color --cache --show-suggestions \"(packages|apps)/**/*.@(html|js|cjs|mjs|ts|tsx|css|scss|md|vue)\"",
+		"commit": "git-cz",
+		"prepare": "husky"
+	},
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-git"
+		}
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@commitlint/cli": "19.7.1",
+		"@commitlint/config-conventional": "19.7.1",
+		"@eslint/js": "9.20.0",
+		"@typescript-eslint/eslint-plugin": "8.23.0",
+		"@typescript-eslint/parser": "8.23.0",
+		"commitizen": "4.3.1",
+		"cspell": "8.17.3",
+		"cz-git": "1.11.0",
+		"eslint": "9.20.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-simple-import-sort": "12.1.1",
+		"eslint-plugin-vue": "9.32.0",
+		"globals": "15.14.0",
+		"husky": "9.1.7",
+		"postcss-html": "^1.8.0",
+		"prettier": "3.5.3",
+		"stylelint": "16.14.1",
+		"stylelint-config-standard": "37.0.0",
+		"stylelint-config-standard-vue": "1.0.0",
+		"typescript": "~5.7.3",
+		"vue-eslint-parser": "9.4.3"
+	}
+}
