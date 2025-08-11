@@ -1,0 +1,22 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"allowImportingTsExtensions": false,
+		"noEmit": false,
+		"declaration": true,
+		"declarationMap": true,
+		"outDir": "dist"
+	},
+	"include": [
+		"src/index.ts",
+		"src/types.ts",
+		"src/queue.ts",
+		"src/transmitter.ts",
+		"src/error-tracker.ts",
+		"src/page-tracker.ts",
+		"src/network-tracker.ts",
+		"src/performance-tracker.ts",
+		"src/web-monitor.ts"
+	],
+	"exclude": ["src/main.ts", "src/counter.ts", "**/*.test.ts", "**/*.spec.ts"]
+}

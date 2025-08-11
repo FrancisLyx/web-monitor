@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Web Monitor SDK Demo</title>
+	</head>
+	<body>
+		<div id="app">
+			<div>
+				<h1>Web Monitor SDK Demo</h1>
+
+				<div class="demo-section">
+					<h2>SDK Status</h2>
+					<p>Session ID: <span id="session-id">Not initialized</span></p>
+					<p>User ID: <span id="user-id">Not set</span></p>
+					<p>Events in queue: <span id="queue-size">0</span></p>
+				</div>
+
+				<div class="demo-section">
+					<h2>Error Tracking Test</h2>
+					<button id="throw-error">Throw JavaScript Error</button>
+					<button id="promise-reject">Cause Promise Rejection</button>
+					<button id="load-missing-image">Load Missing Image</button>
+				</div>
+
+				<div class="demo-section">
+					<h2>Network Tracking Test</h2>
+					<button id="fetch-request">Make Fetch Request</button>
+					<button id="xhr-request">Make XHR Request</button>
+					<button id="failed-request">Make Failed Request</button>
+				</div>
+
+				<div class="demo-section">
+					<h2>Performance Tracking Test</h2>
+					<button id="custom-mark">Create Performance Mark</button>
+					<button id="custom-measure">Create Performance Measure</button>
+					<button id="heavy-operation">Perform Heavy Operation</button>
+				</div>
+
+				<div class="demo-section">
+					<h2>Page Tracking Test</h2>
+					<button id="track-page">Track Custom Page View</button>
+					<button id="navigate-hash">Change Hash (SPA Navigation)</button>
+				</div>
+
+				<div class="demo-section">
+					<h2>Custom Events</h2>
+					<button id="custom-event">Send Custom Event</button>
+					<button id="user-action">Track User Action</button>
+				</div>
+
+				<div class="demo-section">
+					<h2>SDK Controls</h2>
+					<input type="text" id="user-id-input" placeholder="Enter User ID" />
+					<button id="set-user-id">Set User ID</button>
+					<button id="flush-events">Flush Events</button>
+					<button id="clear-console">Clear Console</button>
+				</div>
+
+				<div class="demo-section">
+					<h2>Console Output</h2>
+					<pre id="console-output"></pre>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 20px;
+				background-color: #f5f5f5;
+			}
+
+			.demo-section {
+				background: white;
+				padding: 20px;
+				margin: 20px 0;
+				border-radius: 8px;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			h1,
+			h2 {
+				color: #333;
+			}
+
+			button {
+				background: #007bff;
+				color: white;
+				border: none;
+				padding: 10px 15px;
+				margin: 5px;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+
+			button:hover {
+				background: #0056b3;
+			}
+
+			input {
+				padding: 10px;
+				margin: 5px;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+			}
+
+			#console-output {
+				background: #f8f9fa;
+				border: 1px solid #e9ecef;
+				border-radius: 4px;
+				padding: 10px;
+				max-height: 300px;
+				overflow-y: auto;
+				font-family: 'Monaco', 'Courier New', monospace;
+				font-size: 12px;
+			}
+		</style>
+
+		<!-- <script type="module" src="/src/demo.ts"></script> -->
+	</body>
+</html>

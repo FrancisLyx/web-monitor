@@ -1,0 +1,31 @@
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
+
+export default defineConfig(({ mode }) => {
+  if (mode === 'library') {
+    return {
+      build: {
+        lib: {
+          entry: resolve(__dirname, 'src/index.ts'),
+          name: 'WebMonitor',
+          fileName: (format) => `web-monitor.${format}.js`,
+          formats: ['es', 'umd']
+        },
+        rollupOptions: {
+          output: {
+            globals: {}
+          }
+        },
+        outDir: 'dist',
+        sourcemap: true,
+        minify: false
+      }
+    };
+  }
+
+  // Default dev/demo configuration
+  return {
+    root: '.',
+    publicDir: 'public'
+  };
+});
