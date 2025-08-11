@@ -1,33 +1,34 @@
 {
-  "name": "@web-monitor/log",
-  "version": "1.0.0",
-  "description": "Web monitoring SDK for error tracking, performance monitoring, and user behavior analytics",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build --mode production",
-    "build:lib": "tsc -p tsconfig.lib.json && vite build --mode library",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
-  },
-  "keywords": [
-    "monitoring",
-    "analytics",
-    "error-tracking",
-    "performance",
-    "logging",
-    "sdk",
-    "typescript"
-  ],
-  "author": "Web Monitor Team",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^5.0.2",
-    "vite": "^4.3.2"
-  }
+	"name": "@web-monitor/log",
+	"version": "1.0.0",
+	"description": "Web monitoring SDK for error tracking, performance monitoring, and user behavior analytics",
+	"type": "module",
+	"main": "dist/web-monitor.umd.js",
+	"module": "dist/web-monitor.es.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build --mode production",
+		"build:lib": "tsc -p tsconfig.lib.json && vite build --mode library",
+		"preview": "vite preview",
+		"typecheck": "tsc --noEmit"
+	},
+	"keywords": [
+		"monitoring",
+		"analytics",
+		"error-tracking",
+		"performance",
+		"logging",
+		"sdk",
+		"typescript"
+	],
+	"author": "Web Monitor Team",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^5.0.2",
+		"vite": "^4.3.2"
+	}
 }

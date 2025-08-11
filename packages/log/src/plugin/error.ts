@@ -1,4 +1,4 @@
-import { ErrorEvent } from '../types/types'
+import { ErrorEvent } from '../../types/types'
 
 /**
  * ErrorTracker is responsible for tracking and reporting JavaScript errors, promise rejections, and resource loading errors.
@@ -33,7 +33,7 @@ export class ErrorTracker {
 	}
 
 	private setupJavaScriptErrorTracking(): void {
-		this.errorHandler = (event) => {
+		this.errorHandler = (event): void => {
 			const errorEvent: ErrorEvent = {
 				eventType: 'error',
 				errorType: 'js',
@@ -57,7 +57,7 @@ export class ErrorTracker {
 	}
 
 	private setupPromiseRejectionTracking(): void {
-		this.rejectionHandler = (event) => {
+		this.rejectionHandler = (event): void => {
 			const errorEvent: ErrorEvent = {
 				eventType: 'error',
 				errorType: 'promise',

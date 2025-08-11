@@ -1,4 +1,4 @@
-import { LogEvent, QueueItem, TransmissionResult } from '../types/types'
+import { LogEvent, QueueItem, TransmissionResult } from '../../types/types'
 
 export class Transmitter {
 	private serverUrl: string
@@ -78,8 +78,8 @@ export class Transmitter {
 				})
 			)
 
-			img.onload = () => resolve({ success: true })
-			img.onerror = () =>
+			img.onload = (): void => resolve({ success: true })
+			img.onerror = (): void =>
 				resolve({
 					success: false,
 					error: 'Image pixel transmission failed'

@@ -1,4 +1,4 @@
-import { createWebMonitor } from '../index'
+import { createWebMonitor } from '../main'
 
 // Mock server URL for demo (you can use a service like httpbin.org for testing)
 const MOCK_SERVER_URL = 'https://httpbin.org/post'

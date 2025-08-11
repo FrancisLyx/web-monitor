@@ -1,4 +1,4 @@
-import { PageEvent } from '../types/types'
+import { PageEvent } from '../../types/types'
 
 export class PageTracker {
 	private onPageEvent: (event: PageEvent) => void
@@ -50,13 +50,13 @@ export class PageTracker {
 		const originalPushState = history.pushState
 		const originalReplaceState = history.replaceState
 
-		history.pushState = (...args) => {
+		history.pushState = (...args): void => {
 			this.trackPageLeave()
 			originalPushState.apply(history, args)
 			setTimeout(() => this.trackPageEnter(), 0)
 		}
 
-		history.replaceState = (...args) => {
+		history.replaceState = (...args): void => {
 			this.trackPageLeave()
 			originalReplaceState.apply(history, args)
 			setTimeout(() => this.trackPageEnter(), 0)

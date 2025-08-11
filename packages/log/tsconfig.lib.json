@@ -1,22 +1,17 @@
 {
-	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"allowImportingTsExtensions": false,
+		"target": "ES2020",
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
 		"noEmit": false,
 		"declaration": true,
 		"declarationMap": true,
 		"outDir": "dist"
 	},
-	"include": [
-		"src/index.ts",
-		"src/types.ts",
-		"src/queue.ts",
-		"src/transmitter.ts",
-		"src/error-tracker.ts",
-		"src/page-tracker.ts",
-		"src/network-tracker.ts",
-		"src/performance-tracker.ts",
-		"src/web-monitor.ts"
-	],
+	"include": ["./main.ts", "types/**/*", "src/**/*", "src/index.ts"],
 	"exclude": ["src/main.ts", "src/counter.ts", "**/*.test.ts", "**/*.spec.ts"]
 }

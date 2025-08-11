@@ -7,7 +7,7 @@
 		"skipLibCheck": true,
 
 		/* Bundler mode */
-		"moduleResolution": "bundler",
+		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": false,
@@ -21,6 +21,6 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src", "index.ts", "types/types.ts", "types/vite-env.d.ts"],
+	"include": ["src", "main.ts", "types/**/*", "docs/**/*"],
 	"exclude": ["dist", "node_modules"]
 }

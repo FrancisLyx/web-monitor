@@ -1,4 +1,4 @@
-import { PerformanceEvent } from '../types/types'
+import { PerformanceEvent } from '../../types/types'
 
 interface LayoutShiftEntry extends PerformanceEntry {
 	value: number
@@ -120,7 +120,7 @@ export class PerformanceTracker {
 
 		try {
 			lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
-		} catch (e) {
+		} catch {
 			// LCP not supported
 		}
 	}
@@ -146,7 +146,7 @@ export class PerformanceTracker {
 
 		try {
 			fidObserver.observe({ entryTypes: ['first-input'] })
-		} catch (e) {
+		} catch {
 			// FID not supported
 		}
 	}
@@ -198,7 +198,7 @@ export class PerformanceTracker {
 
 		try {
 			clsObserver.observe({ entryTypes: ['layout-shift'] })
-		} catch (e) {
+		} catch {
 			// CLS not supported
 		}
 	}
@@ -264,7 +264,7 @@ export class PerformanceTracker {
 					duration: measure.duration,
 					startTime: measure.startTime
 				})
-			} catch (e) {
+			} catch {
 				// Measure failed
 			}
 		}
