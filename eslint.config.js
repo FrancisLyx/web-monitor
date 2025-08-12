@@ -19,20 +19,20 @@ export default [
 				defineSlots: 'readonly',
 				defineModel: 'readonly',
 				defineOptions: 'readonly',
-				withDefaults: 'readonly',
-			},
-		},
+				withDefaults: 'readonly'
+			}
+		}
 	},
 	{
 		files: ['**/*.{ts,tsx,vue}'],
 		ignores: [
-			'dist/**',
-			'node_modules/**',
-			'coverage/**',
+			'**/dist/**',
+			'**/node_modules/**',
+			'**/coverage/**',
 			'*.min.js',
-			'public/**',
-			'.nuxt/**',
-			'.output/**',
+			'**/public/**',
+			'**/.nuxt/**',
+			'**/.output/**'
 		],
 		rules: {
 			...js.configs.recommended.rules,
@@ -45,11 +45,12 @@ export default [
 				'error',
 				{
 					'argsIgnorePattern': '^_',
-					'varsIgnorePattern': '^_',
-				},
+					'varsIgnorePattern': '^_'
+				}
 			],
 			'@typescript-eslint/explicit-function-return-type': 'warn',
-			'@typescript-eslint/no-explicit-any': 'error',
+			// ...tsPlugin.configs.recommended.rules 会导入禁止any,先关闭禁止any
+			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-non-null-assertion': 'warn',
 			'@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
 			'@typescript-eslint/no-inferrable-types': 'error',
@@ -71,8 +72,8 @@ export default [
 			'vue/define-macros-order': [
 				'error',
 				{
-					'order': ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots'],
-				},
+					'order': ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots']
+				}
 			],
 			'vue/no-dupe-keys': 'error',
 			'vue/no-duplicate-attributes': 'error',
@@ -90,11 +91,11 @@ export default [
 					'html': {
 						'void': 'always',
 						'normal': 'always',
-						'component': 'always',
+						'component': 'always'
 					},
 					'svg': 'always',
-					'math': 'always',
-				},
+					'math': 'always'
+				}
 			],
 
 			// 代码质量规则
@@ -131,7 +132,7 @@ export default [
 
 			// 导入排序
 			'simple-import-sort/imports': 'error',
-			'simple-import-sort/exports': 'error',
+			'simple-import-sort/exports': 'error'
 		},
 		languageOptions: {
 			parser: vueEslintParser,
@@ -140,14 +141,18 @@ export default [
 				parser: tsParser,
 				ecmaVersion: 'latest',
 				sourceType: 'module',
-				project: ['./packages/*/tsconfig.json', './packages/*/tsconfig.node.json'],
-			},
+				project: [
+					'./packages/*/tsconfig.json',
+					'./packages/*/tsconfig.node.json',
+					'./packages/*/tsconfig.lib.json'
+				]
+			}
 		},
 		plugins: {
 			vue: pluginVue,
 			'@typescript-eslint': tsPlugin,
-			'simple-import-sort': simpleImportSort,
-		},
+			'simple-import-sort': simpleImportSort
+		}
 	},
 	// 测试文件特定规则
 	{
@@ -156,28 +161,28 @@ export default [
 			'@typescript-eslint/no-explicit-any': 'warn',
 			'@typescript-eslint/no-non-null-assertion': 'off',
 			'vue/require-default-prop': 'off',
-			'no-console': 'off',
-		},
+			'no-console': 'off'
+		}
 	},
 	// 配置文件特定规则
 	{
 		files: ['**/*.config.{ts,js}', '**/vite.config.{ts,js}', '**/nuxt.config.{ts,js}'],
 		rules: {
 			'@typescript-eslint/explicit-function-return-type': 'off',
-			'no-console': 'off',
-		},
+			'no-console': 'off'
+		}
 	},
 	// Node.js 文件特定规则
 	{
 		files: ['**/server/**/*.{ts,js}', '**/scripts/**/*.{ts,js}'],
 		languageOptions: {
 			globals: {
-				...globals.node,
-			},
+				...globals.node
+			}
 		},
 		rules: {
 			'no-console': 'warn',
-			'@typescript-eslint/no-var-requires': 'off',
-		},
-	},
+			'@typescript-eslint/no-var-requires': 'off'
+		}
+	}
 ]

@@ -1,10 +1,10 @@
 import { LogEvent, LoggerConfig } from '../types/types'
-import { ErrorTracker } from './plugin/error'
-import { NetworkTracker } from './plugin/network'
-import { PageTracker } from './plugin/page'
-import { PerformanceTracker } from './plugin/performance'
-import { EventQueue } from './plugin/queue'
-import { Transmitter } from './plugin/transmitter'
+import { EventQueue } from './queue'
+import { ErrorTracker } from './Tracker/error'
+import { NetworkTracker } from './Tracker/network'
+import { PageTracker } from './Tracker/page'
+import { PerformanceTracker } from './Tracker/performance'
+import { Transmitter } from './transmitter'
 
 /**
  * @description: WebMonitor 类是 Web 监控的核心类，负责初始化、配置、事件跟踪和数据传输。
@@ -60,6 +60,7 @@ export class WebMonitor {
 		return this
 	}
 
+	// initialize trackers
 	private initializeTrackers(): void {
 		// Error tracking
 		this.errorTracker = new ErrorTracker(
@@ -209,6 +210,7 @@ export class WebMonitor {
 		}
 	}
 
+	// 页面关闭时候，同步上报事件
 	private flushSync(): void {
 		if (this.queue.isEmpty()) {
 			return

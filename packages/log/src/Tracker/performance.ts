@@ -1,4 +1,4 @@
-import { PerformanceEvent } from '../../types/types'
+import { PerformanceEvent, PerformanceEventTiming } from '../../types/types'
 
 interface LayoutShiftEntry extends PerformanceEntry {
 	value: number
@@ -257,13 +257,17 @@ export class PerformanceTracker {
 	measure(name: string, startMark?: string, endMark?: string): void {
 		if ('performance' in window && performance.measure) {
 			try {
-				const measure = performance.measure(name, startMark, endMark)
+				performance.measure(name, startMark, endMark)
 
-				this.createPerformanceEvent('timing', {
-					customMetric: name,
-					duration: measure.duration,
-					startTime: measure.startTime
-				})
+				// Check if measure is returned (some implementations may return undefined)
+				const measureEntry = performance.getEntriesByName(name, 'measure').pop()
+				if (measureEntry) {
+					this.createPerformanceEvent('timing', {
+						customMetric: name,
+						duration: measureEntry.duration,
+						startTime: measureEntry.startTime
+					})
+				}
 			} catch {
 				// Measure failed
 			}

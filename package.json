@@ -7,6 +7,8 @@
 	"scripts": {
 		"dev": "pnpm dev:core",
 		"dev:core": "pnpm --filter core dev",
+		"dev:log": "pnpm --filter log dev",
+		"dev:node": "pnpm --filter node dev",
 		"lint": "eslint --fix",
 		"lint:style": "stylelint \"{packages,apps}/**/*.{css,vue}\"",
 		"spellcheck": "cspell lint --dot --gitignore --color --cache --show-suggestions \"(packages|apps)/**/*.@(html|js|cjs|mjs|ts|tsx|css|scss|md|vue)\"",

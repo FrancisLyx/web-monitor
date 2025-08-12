@@ -1,4 +1,4 @@
-import { LogEvent, QueueItem } from '../../types/types'
+import { LogEvent, QueueItem } from '../types/types'
 
 export class EventQueue {
 	private queue: QueueItem[] = []

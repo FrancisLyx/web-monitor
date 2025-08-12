@@ -68,3 +68,12 @@ export interface TransmissionResult {
   success: boolean;
   error?: string;
 }
+
+// Extended DOM types that may not be available in all environments
+export interface PerformanceEventTiming extends PerformanceEntry {
+  startTime: number;
+  duration: number;
+  processingStart: number;
+  processingEnd: number;
+  cancelable: boolean;
+}

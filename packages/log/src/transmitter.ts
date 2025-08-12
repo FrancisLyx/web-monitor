@@ -1,5 +1,9 @@
-import { LogEvent, QueueItem, TransmissionResult } from '../../types/types'
+import { LogEvent, QueueItem, TransmissionResult } from '../types/types'
 
+/**
+ * @description: 发送事件
+ * @return {*}
+ */
 export class Transmitter {
 	private serverUrl: string
 	private timeout: number
@@ -11,9 +15,13 @@ export class Transmitter {
 
 	async send(events: LogEvent[]): Promise<TransmissionResult> {
 		try {
+			// 终止取消异步操作 controller.signal 用于传递需要取消的操作，controller.abort 用于终止操作
 			const controller = new AbortController()
+
+			// timeout后终止异步事件
 			const timeoutId = setTimeout(() => controller.abort(), this.timeout)
 
+			// 事件上报
 			const response = await fetch(this.serverUrl, {
 				method: 'POST',
 				headers: {
@@ -26,8 +34,10 @@ export class Transmitter {
 				signal: controller.signal
 			})
 
+			// 清除超时定时器
 			clearTimeout(timeoutId)
 
+			// 如果请求失败，返回错误信息
 			if (!response.ok) {
 				return {
 					success: false,
@@ -44,6 +54,7 @@ export class Transmitter {
 		}
 	}
 
+	// 事件组合上报
 	async sendBatch(items: QueueItem[]): Promise<TransmissionResult> {
 		if (items.length === 0) {
 			return { success: true }
@@ -53,8 +64,9 @@ export class Transmitter {
 		return this.send(events)
 	}
 
-	// Send using beacon API for page unload scenarios
+	// 页面卸载上报
 	sendBeacon(events: LogEvent[]): boolean {
+		// 浏览器 原生方法
 		if (!navigator.sendBeacon) {
 			return false
 		}
@@ -67,7 +79,7 @@ export class Transmitter {
 		return navigator.sendBeacon(this.serverUrl, data)
 	}
 
-	// Send using image pixel for fallback scenarios
+	// 使用 image pixel 上报事件
 	sendPixel(events: LogEvent[]): Promise<TransmissionResult> {
 		return new Promise((resolve) => {
 			const img = new Image()

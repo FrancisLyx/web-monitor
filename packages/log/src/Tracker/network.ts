@@ -43,7 +43,7 @@ export class NetworkTracker {
 			const startTime = Date.now()
 
 			try {
-				const response = await this.originalFetch(input, init)
+				const response = await this.originalFetch(input as RequestInfo, init)
 				const duration = Date.now() - startTime
 
 				this.trackNetworkRequest({
@@ -90,11 +90,11 @@ export class NetworkTracker {
 				startTime: 0
 			}
 
-			return self.originalXHROpen.call(this, method, url, async ?? true, user, password)
+			return self.originalXHROpen.call(this, method, typeof url === 'string' ? url : url.toString(), async ?? true, user, password)
 		}
 
 		XMLHttpRequest.prototype.send = function (
-			body?: Document | XMLHttpRequestBodyInit | null
+			body?: Document | BodyInit | null
 		): void {
 			const trackingInfo = (this as XMLHttpRequest & { _trackingInfo?: unknown })
 				._trackingInfo as
@@ -125,7 +125,7 @@ export class NetworkTracker {
 				})
 			}
 
-			return self.originalXHRSend.call(this, body)
+			return self.originalXHRSend.call(this, body as any)
 		}
 	}
 
@@ -190,7 +190,7 @@ export class NetworkTracker {
 		return contentLength ? parseInt(contentLength, 10) : undefined
 	}
 
-	private getXHRRequestSize(body?: Document | XMLHttpRequestBodyInit | null): number | undefined {
+	private getXHRRequestSize(body?: Document | BodyInit | null): number | undefined {
 		if (!body) {
 			return undefined
 		}
