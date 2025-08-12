@@ -56,12 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { createWebMonitor, destroyWebMonitorInstance, getWebMonitorConfig, getWebMonitorInstance, recreateWebMonitorInstance } from '@web-monitor/log'
+import { createWebMonitor, getWebMonitorConfig, getWebMonitorInstance, recreateWebMonitorInstance } from '@web-monitor/log'
 import { onMounted, ref } from 'vue'
-
-import { firstAPI } from '@/api/common'
-
-const result = ref<any>(null)
 
 
 // 响应式状态
@@ -75,17 +71,14 @@ const webMonitor = createWebMonitor({
     appId: 'debug-demo',
     enableConsoleLog: true, // 开启控制台日志
     flushInterval: 5000, // 5秒刷新一次
-    maxQueueSize: 50
+    maxQueueSize: 50,
+    enableAutoFlush: true
 })
 
 // 初始化
 webMonitor.init()
 
 onMounted(() => {
-    firstAPI().then((res) => {
-        result.value = res
-        console.log(res);
-    })
     // 更新状态信息
     sessionId.value = webMonitor.getSessionId()
     updateQueueSize()

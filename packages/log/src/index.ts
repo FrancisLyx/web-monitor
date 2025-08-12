@@ -29,6 +29,7 @@ export class WebMonitor {
 			flushInterval: 10000, // 10 seconds
 			enableConsoleLog: false,
 			enableAutoTrack: true,
+			enableAutoFlush: false,
 			...config
 		}
 
@@ -48,8 +49,10 @@ export class WebMonitor {
 			this.initializeTrackers()
 		}
 
-		// Start periodic flushing
-		this.startPeriodicFlush()
+		// Start periodic flushing 间隔上报数据
+		if (this.config.enableAutoFlush) {
+			this.startPeriodicFlush()
+		}
 
 		// Handle page unload
 		this.setupUnloadHandler()

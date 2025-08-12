@@ -12,6 +12,6 @@
 		"declarationMap": true,
 		"outDir": "dist"
 	},
-	"include": ["./main.ts", "types/**/*", "src/**/*", "src/index.ts"],
+	"include": ["main.ts", "src/**/*", "types/**/*"],
 	"exclude": ["src/main.ts", "src/counter.ts", "**/*.test.ts", "**/*.spec.ts"]
 }

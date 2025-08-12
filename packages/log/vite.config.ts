@@ -18,7 +18,8 @@ export default defineConfig(({ mode }) => {
 				},
 				outDir: 'dist',
 				sourcemap: true,
-				minify: false
+				minify: false,
+				emptyOutDir: false
 			}
 		}
 	}
